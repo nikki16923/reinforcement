@@ -71,19 +71,12 @@ class ValueIterationAgent(ValueEstimationAgent):
                 max = -math.inf
                 for a in self.mdp.getPossibleActions(s):
                     V = self.computeQValueFromValues(s, a)
-                    #store self.values
-
-                    #for next_state in self.mdp.getTransitionStatesAndProbs(s, a):
-                        #s_prime = self.mdp.getTransitionStatesAndProbs(s, a)
-                        #V += next_state[1] * (self.mdp.getReward(s, a, next_state[0]) + (self.discount * self.values[next_state]))
                     if V > max:
                         max = V
                 if len(self.mdp.getPossibleActions(s)) != 0:
                     storage.append((max, s))
             for value in storage:
                 self.values[value[1]] = value[0]
-
-
 
 
 
