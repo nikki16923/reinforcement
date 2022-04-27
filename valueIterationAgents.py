@@ -112,16 +112,16 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        best_action = None
+        bestAction = None
         max = -math.inf
         for a in self.mdp.getPossibleActions(state):
             q = self.computeQValueFromValues(state, a)
             if q > max:
                 max = q
-                best_action = a
+                bestAction = a
             if self.mdp.isTerminal(state):
                 return None
-        return best_action
+        return bestAction
 
 
         #util.raiseNotDefined()
