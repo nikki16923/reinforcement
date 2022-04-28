@@ -70,8 +70,9 @@ class QLearningAgent(ReinforcementAgent):
             return 0
         maxValue = -math.inf
         for action in self.getLegalActions(state):
-            if self.q_values[(state, action)] > maxValue:
-                maxValue = self.q_values[(state, action)]
+            if self.getQValue(state, action) > maxValue:
+                maxValue = self.getQValue(state, action)
+                #maxValue = self.q_values[(state, action)]
         return maxValue
 
     def computeActionFromQValues(self, state):
@@ -87,8 +88,9 @@ class QLearningAgent(ReinforcementAgent):
         maxValue = -math.inf
         bestAction = None
         for action in self.getLegalActions(state):
-            if self.q_values[(state, action)] > maxValue:
-                maxValue = self.q_values[(state, action)]
+            if self.getQValue(state, action) > maxValue:
+                maxValue = self.getQValue(state, action)
+                #maxValue = self.q_values[(state, action)]
                 bestAction = action
         return bestAction
 
@@ -195,8 +197,11 @@ class ApproximateQAgent(PacmanQAgent):
         """
         "*** YOUR CODE HERE ***"
         feature_vector = self.featExtractor.getFeatures(state, action)
-        answer = self.getWeights() * feature_vector
-        return answer
+        q = 0
+        for k in feature_vector.keys():
+            q += self.weights[k] * feature_vector[k]
+
+        return q
 
         #util.raiseNotDefined()
 
@@ -206,7 +211,7 @@ class ApproximateQAgent(PacmanQAgent):
         """
         "*** YOUR CODE HERE ***"
         #util.raiseNotDefined()
-        difference = reward + (self.discount * self.computeValueFromQValues(state)) - self.getQValue(state, action)
+        difference = reward + self.discount * self.computeValueFromQValues(nextState) - self.getQValue(state, action)
         features = self.featExtractor.getFeatures(state, action)
         for feature in features:
             self.weights[feature] = self.weights[feature] + self.alpha * difference * features[feature]
