@@ -79,6 +79,7 @@ class ValueIterationAgent(ValueEstimationAgent):
                 self.values[value[1]] = value[0]
 
 
+
     def getValue(self, state):
         """
           Return the value of the state (computed in __init__).
